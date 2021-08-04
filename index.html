@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Asteroids</title>
+        <style></style>
+    </head>
+    <body>
+        <canvas id="gameCanvas" width="700" height="500"></canvas>
+        <script>
+        /** @type {HTMLCanvasElement} */
+            const fps = 30
+            var canv = document.getElementById("gameCanvas");
+            var ctx = canv.getContext("2d");
+            setInterval(update, 1000/fps)
+            
+            function update(){
+                ctx.fillStyle = "black"
+                ctx.fillRect(0,0, canv.width, canv.height);
+            }
+        </script>
+    </body>
+</html>
