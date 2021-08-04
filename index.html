@@ -9,8 +9,10 @@
         <canvas id="gameCanvas" width="700" height="500"></canvas>
         <script>
             const fps = 30;
+            const friction = 0.7;
             const shipSize = 30;
             const turnSpeed = 360;
+            const shipTrust = 5;
 
             /** @type {HTMLCanvasElement} */
             var canv = document.getElementById("gameCanvas");
@@ -41,6 +43,7 @@
                         ship.rot = turnSpeed / 180 * Math.PI / fps;
                         break;
                     case 38: //up arrow
+                        ship.thrusting = true;
                         break;
                     case 39: //right arrow
                         ship.rot = -turnSpeed / 180 * Math.PI / fps;
@@ -54,6 +57,7 @@
                         ship.rot = 0;
                         break;
                     case 38: //up arrow
+                        ship.thrusting = false;
                         break;
                     case 39: //right arrow
                         ship.rot = 0;
@@ -66,8 +70,38 @@
                 ctx.fillStyle = "black"
                 ctx.fillRect(0,0, canv.width, canv.height);
 
+                //thrust ship
+                if(ship.thrusting){
+                    ship.thrust.x += shipTrust * Math.cos(ship.a)/fps;
+                    ship.thrust.y -= shipTrust * Math.sin(ship.a)/fps;
+                    
+                    //draw thruster
+                    ctx.fillStyle = "red";
+                    ctx.strokeStyle = "yellow";
+                    ctx.lineWidth = shipSize / 10;
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        ship.x - ship.r * (2 / 3 * Math.cos(ship.a) + 0.5 * Math.sin(ship.a)),
+                        ship.y + ship.r * (2 / 3 * Math.sin(ship.a) - 0.5 * Math.cos(ship.a))
+                    );
+                    ctx.lineTo(
+                        ship.x - ship.r * 6 / 3 * Math.cos(ship.a),
+                        ship.y + ship.r * 6 / 3 * Math.sin(ship.a)
+                    );
+                    ctx.lineTo(
+                        ship.x - ship.r * (2 / 3 * Math.cos(ship.a) - 0.5 * Math.sin(ship.a)),
+                        ship.y + ship.r * (2 / 3 * Math.sin(ship.a) + 0.5 * Math.cos(ship.a))
+                    );
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                } else {
+                    ship.thrust.x -= friction * ship.thrust.x / fps;
+                    ship.thrust.y -= friction * ship.thrust.y / fps;
+                }
+
                 //draw ship
-                ctx.strokeStyle = "white",
+                ctx.strokeStyle = "white";
                 ctx.lineWidth = shipSize / 20
                 ctx.beginPath();
                 ctx.moveTo(
@@ -89,6 +123,20 @@
                 ship.a += ship.rot;
 
                 //move ship
+                ship.x += ship.thrust.x;
+                ship.y += ship.thrust.y;
+
+                //handle edge of screen
+                if (ship.x < 0 - ship.r){
+                    ship.x = canv.width + ship.r;
+                } else if (ship.x > canv.width + ship.r){
+                    ship.x= 0 - ship.r;
+                }
+                if (ship.y < 0 - ship.r){
+                    ship.y = canv.height + ship.r;
+                } else if (ship.y > canv.height + ship.r){
+                    ship.y= 0 - ship.r;
+                }
             }
         </script>
     </body>
