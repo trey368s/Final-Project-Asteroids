@@ -7,4 +7,18 @@ body {
     height: 570px;
     width: 760px;
     border: 1px solid white;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    margin-left: 25px;
 }   
+#neoAPI{
+    float: right;
+    padding: 20px;
+    outline: 1px solid white;
+    color: white;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    margin-left: 25px;
+}
