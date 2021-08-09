@@ -1,1 +1,2 @@
 # Final-Project-Asteroids
+This is a replica of the 1979 game Asteroids made by Atari Inc. We used this tutorial to make it possible. https://www.youtube.com/watch?v=H9CSWMxJx84&list=LL&index=2 It also has a Near earth object API which tells you information about the nearest asteroid to earth. The API can be found at https://api.nasa.gov 
